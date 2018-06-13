@@ -18,7 +18,7 @@ Add Laravel Artisan to anything! Simply require through composer, drop a file in
 
 Laravel Artisan Anywhere can be installed through composer:
 
-    composer require two-thirds/artisan-anywhere
+    composer require --dev two-thirds/artisan-anywhere
 
 <a id="create-artisan-file"></a>
 ## Create Artisan File
