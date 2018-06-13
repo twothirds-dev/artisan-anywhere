@@ -3,7 +3,7 @@
 
 require 'vendor/autoload.php';
 
-$artisan = new TwoThirds\ArtisanAnywhere\Artisan;
+$artisan = new TwoThirds\ArtisanAnywhere\Artisan(__DIR__);
 
 $artisan->registerCommands([
     Illuminate\Foundation\Console\TestMakeCommand::class,

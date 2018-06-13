@@ -28,7 +28,8 @@ class ArtisanTest extends TestCase
      */
     protected function setUp()
     {
-        $this->app = (new Artisan)->getApplication();
+        $this->basePath = realpath(__DIR__ . '/../..');
+        $this->app = (new Artisan($this->basePath))->getApplication();
 
         parent::setUp();
     }
@@ -38,7 +39,7 @@ class ArtisanTest extends TestCase
      */
     public function artisanConstructsApplication()
     {
-        $artisan = new Artisan($this->app);
+        $artisan = new Artisan($this->basePath, $this->app);
 
         $this->assertInstanceOf(Application::class, $artisan->getApplication());
     }
@@ -48,7 +49,7 @@ class ArtisanTest extends TestCase
      */
     public function artisanConstructsKernel()
     {
-        $artisan = new Artisan($this->app);
+        $artisan = new Artisan($this->basePath, $this->app);
 
         $this->assertInstanceOf(Kernel::class, $artisan->getKernel());
     }
@@ -58,7 +59,7 @@ class ArtisanTest extends TestCase
      */
     public function artisanRemovesConsoleSupportServiceProvider()
     {
-        $artisan = new Artisan($this->app);
+        $artisan = new Artisan($this->basePath, $this->app);
 
         $this->assertNotContains(
             ConsoleSupportServiceProvider::class,
@@ -71,7 +72,7 @@ class ArtisanTest extends TestCase
      */
     public function artisanRegistersCommands()
     {
-        $artisan = new Artisan($this->app);
+        $artisan = new Artisan($this->basePath, $this->app);
 
         $this->assertNotContains(
             'make:test',
@@ -91,7 +92,7 @@ class ArtisanTest extends TestCase
      */
     public function artisanRegistersMultipleCommands()
     {
-        $artisan = new Artisan($this->app);
+        $artisan = new Artisan($this->basePath, $this->app);
 
         $this->assertNotContains(
             'make:test',
@@ -124,7 +125,7 @@ class ArtisanTest extends TestCase
      */
     public function artisanHandlesIO()
     {
-        $artisan = new Artisan($this->app);
+        $artisan = new Artisan($this->basePath, $this->app);
 
         $output = fopen('php://memory', 'rw');
 
@@ -145,7 +146,7 @@ class ArtisanTest extends TestCase
      */
     public function artisanSetsConfigOnApp()
     {
-        $artisan = new Artisan($this->app);
+        $artisan = new Artisan($this->basePath, $this->app);
 
         $artisan->setConfig([
             'foo' => 'bar',

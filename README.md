@@ -31,7 +31,7 @@ Add an `artisan` file to the root of your project with the following content and
 
 require 'vendor/autoload.php';
 
-$artisan = new TwoThirds\ArtisanAnywhere\Artisan;
+$artisan = new TwoThirds\ArtisanAnywhere\Artisan(__DIR__);
 
 $artisan->registerCommands([
     Illuminate\Foundation\Console\TestMakeCommand::class,

@@ -32,10 +32,10 @@ class Artisan
     /**
      * Boots Artisan for packages
      *
-     * @param \Illuminate\Foundation\Application|null $app
      * @param string $basePath
+     * @param \Illuminate\Foundation\Application|null $app
      */
-    public function __construct(Application $app = null, string $basePath = __DIR__)
+    public function __construct(string $basePath = __DIR__, Application $app = null)
     {
         $this->app = $app ?? $this->createApplication()
             ->setBasePath($basePath);
