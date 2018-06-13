@@ -1,0 +1,17 @@
+before_script:
+    - export APP_ENV=testing
+    - export APP_KEY=$(php -r 'echo md5(uniqid());')
+    - composer install --prefer-dist --no-progress --no-suggest --quiet
+
+tests:
+    script:
+        - phpdbg -qrr vendor/bin/phpunit
+
+phpCsFixer:
+    script:
+        - php vendor/bin/php-cs-fixer fix --dry-run --verbose --diff --diff-format=udiff --config=./phpcs.php
+
+messDetector:
+    script:
+        - php vendor/bin/phpmd src/ text ./phpmd.xml
+        - php vendor/bin/phpmd tests/ text ./phpmd.xml
