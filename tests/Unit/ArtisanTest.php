@@ -29,7 +29,7 @@ class ArtisanTest extends TestCase
     protected function setUp()
     {
         $this->basePath = realpath(__DIR__ . '/../..');
-        $this->app = (new Artisan($this->basePath))->getApplication();
+        $this->app      = (new Artisan($this->basePath))->getApplication();
 
         parent::setUp();
     }
