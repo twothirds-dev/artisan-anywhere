@@ -26,7 +26,7 @@ class ArtisanTest extends TestCase
      *
      * @return void
      */
-    protected function setUp()
+    protected function setUp() : void
     {
         $this->basePath = realpath(__DIR__ . '/../..');
         $this->app      = (new Artisan($this->basePath))->getApplication();
