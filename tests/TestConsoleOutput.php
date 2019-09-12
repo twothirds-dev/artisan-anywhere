@@ -11,6 +11,8 @@ use Symfony\Component\Console\Formatter\OutputFormatterInterface;
 /**
  * This class is basically a copy of \Symfony\Component\Console\Output\ConsoleOutput because
  * they use private methods that can't be overridden so we gotta do this copy / paste bullshit
+ *
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class TestConsoleOutput extends StreamOutput implements ConsoleOutputInterface
 {
