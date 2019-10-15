@@ -6,15 +6,11 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Console\Kernel;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutput;
-use Orchestra\Testbench\Concerns\CreatesApplication;
 use Symfony\Component\Console\Output\OutputInterface;
-use Illuminate\Foundation\Providers\ConsoleSupportServiceProvider;
 use NunoMaduro\Collision\Adapters\Laravel\CollisionServiceProvider;
 
 class Artisan
 {
-    use CreatesApplication;
-
     /**
      * Application instance
      *
@@ -37,7 +33,11 @@ class Artisan
      */
     public function __construct(string $basePath = __DIR__, Application $app = null)
     {
-        $this->app = $app ?? $this->createApplication()
+        $appCreator = class_exists('Orchestra\\Testbench\\Concerns\\CreatesApplication') ?
+            new \TwoThirds\ArtisanAnywhere\Shims\ConcernApplicationCreator :
+            new \TwoThirds\ArtisanAnywhere\Shims\TraitApplicationCreator;
+
+        $this->app = $app ?? $appCreator->create()
             ->setBasePath($basePath);
 
         $this->app->register(CollisionServiceProvider::class);
@@ -131,36 +131,5 @@ class Artisan
         }
 
         return $this;
-    }
-
-    /**
-     * Get application providers.
-     *
-     * @param \Illuminate\Foundation\Application  $app
-     *
-     * @return array
-     */
-    protected function getApplicationProviders($app)
-    {
-        $providers = $app['config']['app.providers'];
-
-        foreach ($providers as $key => $provider) {
-            if ($provider === ConsoleSupportServiceProvider::class) {
-                unset($providers[$key]);
-            }
-        }
-
-        return $providers;
-    }
-
-    /**
-     * Define environment setup.
-     *     This method is requred for the testbench CreatesApplication
-     *
-     * @return void
-     */
-    protected function getEnvironmentSetUp()
-    {
-        // Define your environment setup.
     }
 }
