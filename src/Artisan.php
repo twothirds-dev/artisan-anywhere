@@ -33,9 +33,9 @@ class Artisan
      */
     public function __construct(string $basePath = __DIR__, Application $app = null)
     {
-        $appCreator = class_exists('Orchestra\\Testbench\\Concerns\\CreatesApplication') ?
-            new \TwoThirds\ArtisanAnywhere\Shims\ConcernApplicationCreator :
-            new \TwoThirds\ArtisanAnywhere\Shims\TraitApplicationCreator;
+        $appCreator = trait_exists('Orchestra\\Testbench\\Concerns\\CreatesApplication') ?
+            new \TwoThirds\ArtisanAnywhere\Shims\TraitApplicationCreator :
+            new \TwoThirds\ArtisanAnywhere\Shims\ConcernApplicationCreator;
 
         $this->app = $app ?? $appCreator->create()
             ->setBasePath($basePath);
