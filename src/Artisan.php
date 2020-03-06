@@ -7,6 +7,7 @@ use Illuminate\Foundation\Console\Kernel;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
+use TwoThirds\ArtisanAnywhere\Shims\TraitApplicationCreator;
 use NunoMaduro\Collision\Adapters\Laravel\CollisionServiceProvider;
 
 class Artisan
@@ -33,9 +34,7 @@ class Artisan
      */
     public function __construct(string $basePath = __DIR__, Application $app = null)
     {
-        $appCreator = trait_exists('Orchestra\\Testbench\\Concerns\\CreatesApplication') ?
-            new \TwoThirds\ArtisanAnywhere\Shims\TraitApplicationCreator :
-            new \TwoThirds\ArtisanAnywhere\Shims\ConcernApplicationCreator;
+        $appCreator = new TraitApplicationCreator;
 
         $this->app = $app ?? $appCreator->create()
             ->setBasePath($basePath);
