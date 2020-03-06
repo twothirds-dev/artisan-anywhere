@@ -9,6 +9,7 @@ use TwoThirds\Testing\TestConsoleOutput;
 use Illuminate\Foundation\Console\Kernel;
 use Symfony\Component\Console\Input\ArgvInput;
 use Illuminate\Foundation\Console\TestMakeCommand;
+use Illuminate\Database\Migrations\MigrationCreator;
 use Illuminate\Database\Console\Migrations\MigrateMakeCommand;
 use Illuminate\Foundation\Providers\ConsoleSupportServiceProvider;
 
@@ -30,6 +31,10 @@ class ArtisanTest extends TestCase
     {
         $this->basePath = realpath(__DIR__ . '/../..');
         $this->app      = (new Artisan($this->basePath))->getApplication();
+
+        $this->app->singleton(MigrationCreator::class, function ($app) {
+            return new MigrationCreator($app['files'], $app->basePath('stubs'));
+        });
 
         parent::setUp();
     }
@@ -137,8 +142,8 @@ class ArtisanTest extends TestCase
         rewind($output);
         $output = stream_get_contents($output);
 
-        $this->assertContains('Laravel Framework', $output);
-        $this->assertContains('Available commands', $output);
+        $this->assertStringContainsString('Laravel Framework', $output);
+        $this->assertStringContainsString('Available commands', $output);
     }
 
     /**
